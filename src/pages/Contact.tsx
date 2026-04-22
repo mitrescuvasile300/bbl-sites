@@ -48,7 +48,7 @@ function PageHeader() {
       className="relative flex flex-col items-center justify-center text-center"
       style={{
         minHeight: '50vh',
-        background: 'linear-gradient(150deg, #3806b9 0%, #03020f 45%)',
+        background: 'linear-gradient(150deg, #c2410c 0%, #0a0807 45%)',
         paddingTop: '72px',
       }}
     >

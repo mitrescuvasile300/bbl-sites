@@ -209,7 +209,7 @@ function PhaseSection({
     }
   }, { scope: sectionRef });
 
-  const bgClass = index % 2 === 0 ? 'bg-[#03020f]' : 'bg-[#0a0918]';
+  const bgClass = index % 2 === 0 ? 'bg-[#0a0807]' : 'bg-[#120e0b]';
 
   return (
     <section
@@ -407,11 +407,11 @@ export default function Process() {
   }, []);
 
   return (
-    <div className="bg-[#03020f]">
+    <div className="bg-[#0a0807]">
       {/* ── Section 1: Page Header ── */}
       <section
         ref={headerRef}
-        className="flex flex-col items-center justify-center text-center bg-[#03020f]"
+        className="flex flex-col items-center justify-center text-center bg-[#0a0807]"
         style={{ minHeight: '70vh', padding: '0 clamp(24px, 5vw, 80px)' }}
       >
         <span className="header-label text-micro text-text-muted">HOW WE WORK</span>
@@ -461,7 +461,7 @@ export default function Process() {
       {/* ── Section 2: Sticky Overview Strip ── */}
       <div
         ref={stripRef}
-        className="w-full bg-[#0a0918] z-30"
+        className="w-full bg-[#120e0b] z-30"
         style={{ padding: '0 clamp(24px, 5vw, 80px)', borderBottom: '1px solid var(--border-subtle)' }}
       >
         <div className="mx-auto flex items-center" style={{ maxWidth: '1400px' }}>
@@ -510,7 +510,7 @@ export default function Process() {
 
       {/* ── Section 4: Stats ── */}
       <section
-        className="w-full bg-[#0a0918]"
+        className="w-full bg-[#120e0b]"
         style={{ padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 80px)' }}
       >
         <div
@@ -530,7 +530,7 @@ export default function Process() {
 
       {/* ── Section 5: FAQ ── */}
       <section
-        className="w-full bg-[#03020f]"
+        className="w-full bg-[#0a0807]"
         style={{ padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 80px)' }}
       >
         <div className="mx-auto" style={{ maxWidth: '900px' }}>
@@ -566,7 +566,7 @@ export default function Process() {
 
       {/* ── Section 6: CTA ── */}
       <section
-        className="w-full bg-[#0a0918]"
+        className="w-full bg-[#120e0b]"
         style={{ padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 80px)' }}
       >
         <div ref={ctaRef} className="flex flex-col items-center text-center">

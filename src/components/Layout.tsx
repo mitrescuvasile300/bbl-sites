@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import CustomCursor from './CustomCursor';
 
 interface LayoutProps {
   children: ReactNode;
@@ -35,6 +36,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="relative min-h-[100dvh] flex flex-col" style={{ backgroundColor: 'var(--bg-primary)' }}>
+      <CustomCursor />
       <Navbar />
       <main className="flex-1">
         {children}

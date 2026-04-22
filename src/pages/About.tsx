@@ -324,7 +324,7 @@ export default function About() {
     'We believe great design is invisible. It works so well, feels so natural, that users never have to think about it.';
 
   return (
-    <div className="bg-[#03020f]">
+    <div className="bg-[#0a0807]">
       {/* ── Section 1: Hero ── */}
       <section
         ref={heroRef}
@@ -378,7 +378,7 @@ export default function About() {
       {/* ── Section 2: Company Story ── */}
       <section
         ref={storyRef}
-        className="w-full bg-[#0a0918]"
+        className="w-full bg-[#120e0b]"
         style={{ padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 80px)' }}
       >
         <div
@@ -429,7 +429,7 @@ export default function About() {
       {/* ── Section 3: Philosophy ── */}
       <section
         ref={philosophyRef}
-        className="w-full bg-[#03020f]"
+        className="w-full bg-[#0a0807]"
         style={{ padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 80px)' }}
       >
         <div className="mx-auto" style={{ maxWidth: '1400px' }}>
@@ -475,7 +475,7 @@ export default function About() {
       {/* ── Section 4: Tech Stack ── */}
       <section
         ref={techRef}
-        className="w-full bg-[#0a0918]"
+        className="w-full bg-[#120e0b]"
         style={{ padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 80px)' }}
       >
         <div className="mx-auto" style={{ maxWidth: '1000px' }}>
@@ -519,7 +519,7 @@ export default function About() {
 
       {/* ── Section 5: CTA ── */}
       <section
-        className="w-full bg-[#03020f]"
+        className="w-full bg-[#0a0807]"
         style={{ padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 80px)' }}
       >
         <div ref={ctaRef} className="flex flex-col items-center text-center">

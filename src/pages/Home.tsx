@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Layout from '../components/Layout';
+import ParticleNetwork from '../components/ParticleNetwork';
+import CodeShowcase from '../components/CodeShowcase';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,7 +81,7 @@ function HeroSection() {
         ref={bgRef}
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(150deg, #3806b9 0%, #03020f 45%)',
+          background: 'linear-gradient(150deg, #c2410c 0%, #0a0807 45%)',
           zIndex: 0,
         }}
       />
@@ -91,11 +93,14 @@ function HeroSection() {
           left: '15%',
           width: '50%',
           height: '50%',
-          background: 'radial-gradient(circle at 30% 40%, rgba(111,0,255,0.12) 0%, transparent 50%)',
+          background: 'radial-gradient(circle at 30% 40%, rgba(232,93,4,0.12) 0%, transparent 50%)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
       />
+
+      {/* Particle Network */}
+      <ParticleNetwork />
 
       {/* Content */}
       <div
@@ -383,23 +388,23 @@ function ValueCardsSection() {
               style={{
                 position: 'sticky',
                 top: '100px',
-                background: 'linear-gradient(180deg, rgba(68,8,119,0.3) 0%, var(--bg-card) 100%)',
+                background: 'linear-gradient(180deg, rgba(154,52,18,0.3) 0%, var(--bg-card) 100%)',
                 border: '1px solid var(--border-subtle)',
                 borderLeft: '2px solid var(--accent)',
                 padding: 'clamp(32px, 4vw, 56px)',
-                boxShadow: 'inset 0 0 60px rgba(111,0,255,0.05)',
+                boxShadow: 'inset 0 0 60px rgba(232,93,4,0.05)',
                 transition: 'all 0.4s ease',
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget;
                 el.style.borderColor = 'var(--border-accent)';
-                el.style.boxShadow = 'inset 0 0 60px rgba(111,0,255,0.1)';
+                el.style.boxShadow = 'inset 0 0 60px rgba(232,93,4,0.1)';
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget;
                 el.style.borderColor = 'var(--border-subtle)';
                 el.style.borderLeft = '2px solid var(--accent)';
-                el.style.boxShadow = 'inset 0 0 60px rgba(111,0,255,0.05)';
+                el.style.boxShadow = 'inset 0 0 60px rgba(232,93,4,0.05)';
               }}
             >
               {/* Large number */}
@@ -564,7 +569,7 @@ function ShowcaseSection() {
             transform: 'translate(-50%, -50%)',
             width: '60%',
             height: '60%',
-            background: 'radial-gradient(circle at 50% 50%, rgba(111,0,255,0.06) 0%, transparent 60%)',
+            background: 'radial-gradient(circle at 50% 50%, rgba(232,93,4,0.06) 0%, transparent 60%)',
           }}
         />
 
@@ -578,7 +583,7 @@ function ShowcaseSection() {
                 style={cardStyle}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border-accent)';
-                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(111,0,255,0.08)';
+                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(232,93,4,0.08)';
                   e.currentTarget.style.transform = 'translateY(-4px)';
                 }}
                 onMouseLeave={(e) => {
@@ -605,7 +610,7 @@ function ShowcaseSection() {
                 style={cardStyle}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border-accent)';
-                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(111,0,255,0.08)';
+                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(232,93,4,0.08)';
                   e.currentTarget.style.transform = 'translateY(-4px)';
                 }}
                 onMouseLeave={(e) => {
@@ -632,7 +637,7 @@ function ShowcaseSection() {
                 style={cardStyle}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border-accent)';
-                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(111,0,255,0.08)';
+                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(232,93,4,0.08)';
                   e.currentTarget.style.transform = 'translateY(-4px)';
                 }}
                 onMouseLeave={(e) => {
@@ -760,7 +765,7 @@ function CaseStudiesSection() {
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--border-accent)';
                 e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 12px 48px rgba(111,0,255,0.06)';
+                e.currentTarget.style.boxShadow = '0 12px 48px rgba(232,93,4,0.06)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'var(--border-subtle)';
@@ -822,6 +827,7 @@ export default function Home() {
       <LogoCarouselSection />
       <ValueCardsSection />
       <ShowcaseSection />
+      <CodeShowcase />
       <CaseStudiesSection />
     </Layout>
   );

@@ -42,7 +42,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 w-full z-50 transition-all duration-300"
         style={{
           height: '72px',
-          backgroundColor: scrolled ? 'rgba(3,2,15,0.8)' : 'rgba(3,2,15,0.4)',
+          backgroundColor: scrolled ? 'rgba(10,8,7,0.9)' : 'rgba(10,8,7,0.5)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderBottom: '1px solid var(--border-subtle)',
@@ -53,8 +53,7 @@ export default function Navbar() {
             <img
               src="/logos/logo-1-premium.png"
               alt="BBL SITES"
-              className="h-8 w-auto"
-              style={{ objectFit: 'contain' }}
+              style={{ height: '38px', width: 'auto', objectFit: 'contain' }}
             />
           </Link>
 
@@ -106,7 +105,7 @@ export default function Navbar() {
         <div
           className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8"
           style={{
-            backgroundColor: 'rgba(3,2,15,0.95)',
+            backgroundColor: 'rgba(10,8,7,0.98)',
             backdropFilter: 'blur(20px)',
           }}
         >

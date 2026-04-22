@@ -345,7 +345,7 @@ export default function About() {
           className="absolute inset-0 z-[1]"
           style={{
             background:
-              'linear-gradient(180deg, rgba(3,2,15,0.7) 0%, rgba(3,2,15,0.85) 100%)',
+              'linear-gradient(180deg, rgba(10,8,7,0.7) 0%, rgba(10,8,7,0.85) 100%)',
           }}
         />
 

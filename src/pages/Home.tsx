@@ -1,134 +1,178 @@
-import { useEffect, useRef, useLayoutEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useLayoutEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Layout from '../components/Layout';
-import ParticleNetwork from '../components/ParticleNetwork';
-import TiltCard from '../components/TiltCard';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ───────────────────────── Hero Section ───────────────────────── */
+/* ═══════════════════════════════════════════════
+   BBL SITES — Single Page Website (Design 1)
+   ═══════════════════════════════════════════════ */
+
+/* ───────────────────── Navbar ───────────────────── */
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { label: 'Servicii', href: '#servicii' },
+    { label: 'Proces', href: '#proces' },
+    { label: 'Portofoliu', href: '#portofoliu' },
+    { label: 'Contact', href: '#contact' },
+  ];
+
+  return (
+    <>
+      <header
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          backgroundColor: scrolled ? 'rgba(250,249,245,0.95)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        }}
+      >
+        <nav className="flex justify-between items-center w-full py-6 content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
+          <a href="#" className="font-headline font-bold text-xl tracking-tight" style={{ color: '#002D21' }}>
+            BBL Sites
+          </a>
+          <div className="hidden md:flex items-center gap-10">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-nav transition-colors duration-200 hover:text-accent-orange"
+                style={{ color: 'rgba(0,45,33,0.6)' }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <a
+            href="#contact"
+            className="hidden md:inline-flex btn-primary"
+            style={{ padding: '12px 24px', fontSize: '0.65rem' }}
+          >
+            Proiect Nou
+          </a>
+          <button
+            className="md:hidden flex flex-col gap-1.5 p-2"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Meniu"
+          >
+            <span className="block w-5 h-px bg-bg-green" />
+            <span className="block w-5 h-px bg-bg-green" />
+            <span className="block w-5 h-px bg-bg-green" />
+          </button>
+        </nav>
+        <div className="h-px w-full" style={{ backgroundColor: '#F4F4F0' }} />
+      </header>
+
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 md:hidden"
+          style={{ backgroundColor: 'rgba(250,249,245,0.98)' }}
+        >
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-h2 font-headline"
+              style={{ color: '#002D21' }}
+              onClick={() => setMobileOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a href="#contact" className="btn-primary mt-4" onClick={() => setMobileOpen(false)}>
+            Proiect Nou
+          </a>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ───────────────────── Hero ───────────────────── */
 function HeroSection() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const line1Ref = useRef<HTMLDivElement>(null);
-  const line2Ref = useRef<HTMLDivElement>(null);
-  const descRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLDivElement>(null);
+  const statRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        bgRef.current,
-        { scale: 1.05 },
-        { scale: 1, duration: 1.5, ease: 'expo.out' }
-      );
-
-      // Animate by words, not characters (fixes wrapping)
-      const animateWords = (el: HTMLElement | null, delay: number) => {
-        if (!el) return;
-        const text = el.textContent || '';
-        el.innerHTML = '';
-        const words = text.split(' ');
-        words.forEach((word) => {
-          const span = document.createElement('span');
-          span.textContent = word;
-          span.style.display = 'inline-block';
-          span.style.opacity = '0';
-          span.style.transform = 'translateY(40px)';
-          span.style.marginRight = '0.3em';
-          el.appendChild(span);
-        });
-
-        gsap.to(el.querySelectorAll('span'), {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.08,
-          ease: 'expo.out',
-          delay,
-        });
-      };
-
-      animateWords(line1Ref.current, 0.3);
-      animateWords(line2Ref.current, 0.6);
-
-      gsap.fromTo(
-        descRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', delay: 1.0 }
-      );
-
-      gsap.fromTo(
-        ctaRef.current,
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', delay: 1.2 }
-      );
-    }, heroRef);
-
+      gsap.fromTo(badgeRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', delay: 0.2 });
+      gsap.fromTo(headlineRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out', delay: 0.35 });
+      gsap.fromTo(descRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', delay: 0.55 });
+      gsap.fromTo(ctaRef.current, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', delay: 0.7 });
+      gsap.fromTo(imgRef.current, { opacity: 0, scale: 0.95, x: 30 }, { opacity: 1, scale: 1, x: 0, duration: 0.9, ease: 'expo.out', delay: 0.4 });
+      gsap.fromTo(statRef.current, { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.5)', delay: 0.8 });
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
     <section
-      ref={heroRef}
+      ref={sectionRef}
       className="relative w-full overflow-hidden"
-      style={{ height: '100dvh', minHeight: '600px' }}
+      style={{ minHeight: '100dvh', paddingTop: '100px', backgroundColor: '#FAF9F5' }}
     >
-      <div
-        ref={bgRef}
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(150deg, #c2410c 0%, #0a0807 50%)',
-          zIndex: 0,
-        }}
-      />
-      <div
-        className="absolute"
-        style={{
-          top: '15%',
-          right: '5%',
-          width: '45%',
-          height: '55%',
-          background: 'radial-gradient(circle at 50% 50%, rgba(232,93,4,0.08) 0%, transparent 60%)',
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      />
-
-      <ParticleNetwork />
-
-      <div
-        className="relative z-10 flex flex-col justify-center h-full mx-auto"
-        style={{
-          maxWidth: '1400px',
-          padding: '0 clamp(24px, 5vw, 80px)',
-          paddingTop: '72px',
-        }}
-      >
-        <div style={{ maxWidth: '900px' }}>
-          <div ref={line1Ref} className="text-display-1 text-text-primary" style={{ lineHeight: 0.95 }}>
-            We Build
-          </div>
-          <div ref={line2Ref} className="text-display-2 text-text-secondary mt-2">
-            the digital future
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-12 w-full items-center content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)', minHeight: 'calc(100dvh - 100px)' }}>
+        <div className="md:col-span-7 space-y-8 relative z-10">
+          <div ref={badgeRef} className="flex items-center gap-3">
+            <span className="text-micro px-3 py-1 rounded-sm" style={{ backgroundColor: '#FFDBCD', color: '#481800' }}>
+              Digital Craft Studio
+            </span>
+            <div className="h-px w-12" style={{ backgroundColor: '#C4C6CD' }} />
+            <span className="text-micro" style={{ color: '#74777D' }}>44.4268° N, 26.1025° E</span>
           </div>
 
-          <div ref={descRef} style={{ maxWidth: '500px', marginTop: '32px' }}>
-            <p className="text-body-large text-text-secondary" style={{ lineHeight: 1.6 }}>
-              Award-winning websites, interfaces and digital products. 
-              Built with obsessive craft and attention to detail.
-            </p>
-          </div>
+          <h1 ref={headlineRef} className="text-display-1" style={{ color: '#002D21' }}>
+            Website-uri care ajută IMM-urile să{' '}
+            <span style={{ color: '#D35400' }}>inspire încredere</span>.
+          </h1>
 
-          <div ref={ctaRef} className="flex flex-wrap gap-4" style={{ marginTop: '40px' }}>
-            <Link to="/services" className="btn-primary">
-              VIEW OUR WORK
-            </Link>
-            <Link to="/process" className="btn-secondary">
-              OUR PROCESS
-            </Link>
+          <p ref={descRef} className="text-body-lg" style={{ maxWidth: '520px', color: '#43474C' }}>
+            Construim pagini de prezentare și website-uri de business care explică clar ce oferi, arată profesionist pe orice dispozitiv și transformă traficul în conversații reale.
+          </p>
+
+          <div ref={ctaRef} className="flex flex-wrap gap-4 pt-4">
+            <a href="#contact" className="btn-primary" style={{ padding: '18px 36px' }}>
+              Programează o discuție
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </a>
+            <a href="#proces" className="btn-secondary" style={{ padding: '18px 36px' }}>
+              Vezi cum lucrăm
+            </a>
+          </div>
+        </div>
+
+        <div className="md:col-span-5 relative" style={{ minHeight: '400px' }}>
+          <div ref={imgRef} className="relative w-full h-full" style={{ minHeight: '500px' }}>
+            <div className="absolute inset-0 rounded-sm" style={{ backgroundColor: '#104436', transform: 'rotate(2deg)', opacity: 0.1 }} />
+            <img
+              src="/hero-workspace.jpg"
+              alt="Workspace BBL Sites"
+              className="absolute inset-0 w-full h-full object-cover rounded-sm shadow-2xl"
+              style={{ filter: 'grayscale(0.3)' }}
+            />
+            <div
+              ref={statRef}
+              className="absolute -bottom-6 -left-6 p-8 shadow-xl max-w-[240px]"
+              style={{ backgroundColor: '#FAF9F5', border: '1px solid #E3E2DF' }}
+            >
+              <div className="font-headline font-bold text-4xl mb-1" style={{ color: '#D35400' }}>98%</div>
+              <p className="text-micro" style={{ color: '#74777D' }}>Rată de satisfacție parteneri IMM</p>
+            </div>
           </div>
         </div>
       </div>
@@ -136,186 +180,37 @@ function HeroSection() {
   );
 }
 
-/* ─────────────────────── Scrolling Marquee ─────────────────────── */
-function MarqueeSection() {
-  const items = [
-    'WEB DESIGN',
-    'WEB DEVELOPMENT',
-    'BRANDING',
-    'UI/UX DESIGN',
-    'E-COMMERCE',
-    'SEO',
-    'DIGITAL STRATEGY',
-  ];
-
-  const content = items.map((item) => (
-    <span key={item} className="flex items-center gap-6 shrink-0">
-      <span
-        className="uppercase whitespace-nowrap"
-        style={{
-          fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-          fontWeight: 400,
-          color: 'var(--text-muted)',
-          opacity: 0.5,
-          letterSpacing: '-0.02em',
-        }}
-      >
-        {item}
-      </span>
-      <span
-        className="shrink-0 rounded-full"
-        style={{
-          width: '8px',
-          height: '8px',
-          backgroundColor: 'var(--accent)',
-          opacity: 0.4,
-        }}
-      />
-    </span>
-  ));
-
-  return (
-    <section className="w-full overflow-hidden" style={{ padding: '48px 0' }}>
-      <div className="flex animate-marquee">
-        {content}
-        {content}
-        {content}
-        {content}
-      </div>
-    </section>
-  );
-}
-
-/* ──────────────────────── Logo Carousel ──────────────────────── */
-function LogoCarouselSection() {
-  const row1 = ['logo-replicant.svg', 'logo-mistral.svg', 'logo-flux.svg', 'logo-lmvr.svg', 'logo-sparknews.svg', 'logo-axiom.svg'];
-  const row2 = ['logo-neural.svg', 'logo-prism.svg', 'logo-replicant.svg', 'logo-mistral.svg', 'logo-flux.svg', 'logo-lmvr.svg'];
-
-  return (
-    <section className="w-full overflow-hidden relative" style={{ padding: '60px 0' }}>
-      <div className="relative z-10">
-        <p className="text-micro text-text-muted text-center" style={{ marginBottom: '36px' }}>
-          TRUSTED BY INDUSTRY LEADERS
-        </p>
-        <div className="flex overflow-hidden" style={{ marginBottom: '20px' }}>
-          <div className="flex animate-carousel-row1">
-            {[...row1, ...row1].map((logo, i) => (
-              <div key={`r1-${i}`} className="flex items-center justify-center shrink-0" style={{ width: '180px', height: '40px' }}>
-                <img src={`/${logo}`} alt="" className="grayscale-logo" style={{ width: '120px', height: '40px', objectFit: 'contain' }} />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex overflow-hidden">
-          <div className="flex animate-carousel-row2">
-            {[...row2, ...row2].map((logo, i) => (
-              <div key={`r2-${i}`} className="flex items-center justify-center shrink-0" style={{ width: '180px', height: '40px' }}>
-                <img src={`/${logo}`} alt="" className="grayscale-logo" style={{ width: '120px', height: '40px', objectFit: 'contain' }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ──────────────────── Dark Value Cards (Stacked) ──────────────────── */
-function ValueCardsSection() {
+/* ───────────────────── Trust Bar ───────────────────── */
+function TrustBar() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLHeadingElement>(null);
-  const card1Ref = useRef<HTMLDivElement>(null);
-  const card2Ref = useRef<HTMLDivElement>(null);
-  const card3Ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        headerRef.current,
-        { opacity: 0, y: 40 },
+        (sectionRef.current ? Array.from(sectionRef.current.querySelectorAll('.trust-logo')) : []),
+        { opacity: 0, y: 20 },
         {
-          opacity: 1, y: 0, duration: 0.7, ease: 'expo.out',
-          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none none' },
+          opacity: 0.4,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' },
         }
       );
-
-      const cards = [card1Ref.current, card2Ref.current, card3Ref.current];
-      cards.forEach((card) => {
-        if (!card) return;
-        gsap.fromTo(
-          card,
-          { scale: 0.95, opacity: 0.7 },
-          {
-            scale: 1, opacity: 1, ease: 'expo.out',
-            scrollTrigger: { trigger: card, start: 'top 80%', end: 'top 20%', scrub: 0.5 },
-          }
-        );
-        const inner = card.querySelectorAll('.card-inner');
-        gsap.fromTo(
-          inner,
-          { y: 30, opacity: 0 },
-          {
-            y: 0, opacity: 1, stagger: 0.1, ease: 'expo.out',
-            scrollTrigger: { trigger: card, start: 'top 60%', toggleActions: 'play none none none' },
-          }
-        );
-      });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
-  const cards = [
-    { num: '01', title: 'Design Excellence', body: 'Every pixel is placed with intention. We craft interfaces that are both beautiful and functional, turning complex requirements into intuitive digital experiences.', cta: 'See our approach', link: '/process', ref: card1Ref },
-    { num: '02', title: 'Technical Mastery', body: 'From React and Next.js to custom animations, we build with cutting-edge technology. Performance, accessibility, and scalability are built into every project.', cta: 'Explore our tech stack', link: '/services', ref: card2Ref },
-    { num: '03', title: 'End-to-End Partnership', body: "We don't just deliver websites — we build lasting partnerships. From initial strategy through launch and beyond, we're invested in your success.", cta: 'Learn about our process', link: '/process', ref: card3Ref },
-  ];
+  const clients = ['LOGISTIC CORE', 'BUILD RO', 'TECH FUSION', 'MED CONNECT', 'ECO SYSTEM'];
 
   return (
-    <section ref={sectionRef} className="w-full" style={{ backgroundColor: 'var(--bg-primary)', padding: 'clamp(80px, 12vh, 160px) 0' }}>
-      <div className="mx-auto" style={{ maxWidth: '1400px', padding: '0 clamp(24px, 5vw, 80px)' }}>
-        <h2 ref={headerRef} className="text-h2 text-text-primary text-center" style={{ marginBottom: '64px' }}>
-          Why clients choose us
-        </h2>
-        <div className="flex flex-col gap-6">
-          {cards.map((card) => (
-            <div
-              key={card.num}
-              ref={card.ref}
-              style={{
-                position: 'sticky',
-                top: '100px',
-                background: 'linear-gradient(180deg, rgba(154,52,18,0.2) 0%, var(--bg-card) 100%)',
-                border: '1px solid var(--border-subtle)',
-                borderLeft: '2px solid var(--accent)',
-                padding: 'clamp(32px, 4vw, 56px)',
-                boxShadow: 'inset 0 0 60px rgba(232,93,4,0.03)',
-                transition: 'all 0.4s ease',
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget;
-                el.style.borderColor = 'var(--border-accent)';
-                el.style.boxShadow = 'inset 0 0 60px rgba(232,93,4,0.06)';
-                el.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget;
-                el.style.borderColor = 'var(--border-subtle)';
-                el.style.borderLeft = '2px solid var(--accent)';
-                el.style.boxShadow = 'inset 0 0 60px rgba(232,93,4,0.03)';
-                el.style.transform = 'translateY(0)';
-              }}
-            >
-              <div className="absolute top-4 right-4 pointer-events-none select-none" style={{ fontSize: 'clamp(6rem, 12vw, 10rem)', fontWeight: 400, color: 'var(--accent)', opacity: 0.06, lineHeight: 1 }}>
-                {card.num}
-              </div>
-              <div className="relative z-10">
-                <h3 className="card-inner text-h3 text-text-primary" style={{ marginBottom: '16px' }}>{card.title}</h3>
-                <p className="card-inner text-body text-text-secondary" style={{ maxWidth: '600px', marginBottom: '24px' }}>{card.body}</p>
-                <Link to={card.link} className="card-inner btn-ghost">
-                  {card.cta} <span className="arrow">&rarr;</span>
-                </Link>
-              </div>
+    <section ref={sectionRef} style={{ backgroundColor: '#F4F4F0', padding: '60px 0' }}>
+      <div className="content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
+          {clients.map((client) => (
+            <div key={client} className="trust-logo flex justify-center font-headline font-bold text-lg tracking-tighter italic" style={{ color: '#1B1C1A', opacity: 0.4 }}>
+              {client}
             </div>
           ))}
         </div>
@@ -324,74 +219,84 @@ function ValueCardsSection() {
   );
 }
 
-/* ───────────────────── Showcase (Parallax Grid) ───────────────────── */
-function ShowcaseSection() {
+/* ───────────── Problem & Opportunity ───────────── */
+function ProblemSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const leftColRef = useRef<HTMLDivElement>(null);
-  const midColRef = useRef<HTMLDivElement>(null);
-  const rightColRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const leftCards = leftColRef.current?.querySelectorAll('.service-card') || [];
-      const midCards = midColRef.current?.querySelectorAll('.service-card') || [];
-      const rightCards = rightColRef.current?.querySelectorAll('.service-card') || [];
-
-      gsap.fromTo(leftCards, { y: '25vh', opacity: 0.3, scale: 0.85 }, { y: '-25vh', opacity: 1, scale: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: containerRef.current, start: 'top top', end: '+=200%', scrub: 1, pin: true } });
-      gsap.fromTo(midCards, { y: '-25vh', opacity: 0.3, scale: 0.85 }, { y: '25vh', opacity: 1, scale: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: containerRef.current, start: 'top top', end: '+=200%', scrub: 1 } });
-      gsap.fromTo(rightCards, { y: '25vh', opacity: 0.3, scale: 0.85 }, { y: '-25vh', opacity: 1, scale: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: containerRef.current, start: 'top top', end: '+=200%', scrub: 1 } });
+      gsap.fromTo(
+        (sectionRef.current ? Array.from(sectionRef.current.querySelectorAll('.problem-animate')) : []),
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
+        }
+      );
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
-  const leftServices = ['WEB DESIGN', 'DEVELOPMENT', 'UI/UX DESIGN'];
-  const midServices = ['BRANDING', 'E-COMMERCE', 'SEO & GROWTH'];
-  const rightServices = ['WEB APPS', 'DIGITAL STRATEGY', 'CONSULTING'];
-
-  const cardStyle: React.CSSProperties = { backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', padding: 'clamp(24px, 3vw, 40px)', minHeight: '180px', position: 'relative', overflow: 'hidden', transition: 'all 0.3s ease' };
-
   return (
-    <section ref={sectionRef} className="w-full relative" style={{ backgroundColor: 'var(--bg-secondary)' }}>
-      <div className="text-center" style={{ padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 80px)', paddingBottom: '40px' }}>
-        <p className="text-h4 text-text-muted" style={{ marginBottom: '16px' }}>What we do</p>
-        <h2 className="text-h2 text-text-primary">Crafting digital excellence</h2>
-      </div>
-      <div ref={containerRef} className="relative overflow-hidden" style={{ minHeight: '100dvh', padding: '0 clamp(24px, 5vw, 80px)' }}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          <div ref={leftColRef} className="flex flex-col gap-6" style={{ paddingTop: '10vh' }}>
-            {leftServices.map((title, i) => (
-              <div key={title} className="service-card" style={cardStyle}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-accent)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(232,93,4,0.08)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-                <div style={{ position: 'absolute', left: 0, top: 0, width: '2px', height: '100%', backgroundColor: 'var(--accent)' }} />
-                <h3 className="text-h3 text-text-primary" style={{ marginBottom: '8px' }}>{title}</h3>
-                <p className="text-body text-text-secondary">{i === 0 ? 'Stunning interfaces that convert visitors into customers' : i === 1 ? 'Robust, scalable solutions built with modern tech' : 'User-centered design backed by research'}</p>
-              </div>
-            ))}
+    <section ref={sectionRef} className="section-padding" style={{ backgroundColor: '#FAF9F5' }}>
+      <div className="content-max-width grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="space-y-10">
+          <div className="problem-animate inline-flex flex-col">
+            <span className="text-micro mb-4" style={{ color: '#D35400' }}>Analiză Strategică</span>
+            <h2 className="text-h1" style={{ color: '#002D21' }}>
+              De ce majoritatea site-urilor de business eșuează?
+            </h2>
           </div>
-          <div ref={midColRef} className="flex flex-col gap-6" style={{ paddingTop: '5vh' }}>
-            {midServices.map((title, i) => (
-              <div key={title} className="service-card" style={cardStyle}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-accent)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(232,93,4,0.08)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-                <div style={{ position: 'absolute', left: 0, top: 0, width: '2px', height: '100%', backgroundColor: 'var(--accent)' }} />
-                <h3 className="text-h3 text-text-primary" style={{ marginBottom: '8px' }}>{title}</h3>
-                <p className="text-body text-text-secondary">{i === 0 ? 'Complete identity systems that tell your story' : i === 1 ? 'Online stores optimized for conversions' : 'Data-driven growth strategies'}</p>
+
+          <div className="space-y-8">
+            <div className="problem-animate flex gap-6">
+              <div className="shrink-0 w-12 h-12 flex items-center justify-center rounded" style={{ backgroundColor: 'rgba(186,26,26,0.08)' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BA1A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
               </div>
-            ))}
+              <div>
+                <h4 className="font-headline font-bold text-lg mb-2" style={{ color: '#1B1C1A' }}>Abordarea Generică</h4>
+                <p className="text-body text-sm" style={{ color: '#43474C' }}>
+                  Template-uri cumpărate care nu spun nimic despre afacerea ta și se pierd în mulțime.
+                </p>
+              </div>
+            </div>
+
+            <div className="problem-animate flex gap-6">
+              <div className="shrink-0 w-12 h-12 flex items-center justify-center rounded" style={{ backgroundColor: 'rgba(0,45,33,0.06)' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#002D21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="font-headline font-bold text-lg mb-2" style={{ color: '#1B1C1A' }}>Metoda BBL Sites</h4>
+                <p className="text-body text-sm" style={{ color: '#43474C' }}>
+                  Arhitectură informațională bazată pe comportamentul clientului tău real și identitate vizuală proprie.
+                </p>
+              </div>
+            </div>
           </div>
-          <div ref={rightColRef} className="flex flex-col gap-6" style={{ paddingTop: '10vh' }}>
-            {rightServices.map((title, i) => (
-              <div key={title} className="service-card" style={cardStyle}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-accent)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(232,93,4,0.08)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-                <div style={{ position: 'absolute', left: 0, top: 0, width: '2px', height: '100%', backgroundColor: 'var(--accent)' }} />
-                <h3 className="text-h3 text-text-primary" style={{ marginBottom: '8px' }}>{title}</h3>
-                <p className="text-body text-text-secondary">{i === 0 ? 'Custom applications tailored to your needs' : i === 1 ? 'Strategic planning for digital success' : 'Expert guidance every step of the way'}</p>
-              </div>
-            ))}
+        </div>
+
+        <div className="problem-animate relative p-12 overflow-hidden" style={{ backgroundColor: '#002D21', color: '#FAF9F5' }}>
+          <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(127,177,158,0.15)', marginTop: '-40px', marginRight: '-40px' }} />
+          <div className="relative z-10 space-y-6">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF854A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-4a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <p className="text-2xl font-headline font-medium leading-snug" style={{ color: '#FAF9F5' }}>
+              "Un site care doar 'arată bine' e o cheltuială. Un site care explică valoarea ta e o investiție care lucrează 24/7."
+            </p>
+            <div className="h-px w-full" style={{ backgroundColor: 'rgba(250,249,245,0.1)' }} />
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full" style={{ backgroundColor: 'rgba(250,249,245,0.15)' }} />
+              <div className="text-micro" style={{ color: 'rgba(250,249,245,0.5)' }}>Direcția Strategică BBL</div>
+            </div>
           </div>
         </div>
       </div>
@@ -399,155 +304,179 @@ function ShowcaseSection() {
   );
 }
 
-/* ─────────────────── Visual Showcase Section ─────────────────── */
-function VisualShowcaseSection() {
+/* ─────────────────── Services Grid ─────────────────── */
+function ServicesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const img1Ref = useRef<HTMLDivElement>(null);
-  const img2Ref = useRef<HTMLDivElement>(null);
-  const img3Ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(headingRef.current, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', scrollTrigger: { trigger: headingRef.current, start: 'top 80%' } });
-      gsap.fromTo(img1Ref.current, { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'expo.out', scrollTrigger: { trigger: img1Ref.current, start: 'top 80%' } });
-      gsap.fromTo(img2Ref.current, { opacity: 0, y: 60, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, delay: 0.15, ease: 'expo.out', scrollTrigger: { trigger: img2Ref.current, start: 'top 80%' } });
-      gsap.fromTo(img3Ref.current, { opacity: 0, x: 60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 0.8, delay: 0.3, ease: 'expo.out', scrollTrigger: { trigger: img3Ref.current, start: 'top 80%' } });
+      gsap.fromTo(
+        (sectionRef.current ? Array.from(sectionRef.current.querySelectorAll('.service-card')) : []),
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
+        }
+      );
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
+  const services = [
+    {
+      num: '01 / DESIGN',
+      title: 'Web Design Strategic',
+      desc: 'Interfețe care nu doar plac ochiului, ci ghidează utilizatorul către acțiune prin UX psihologic.',
+      items: ['UI / UX Design', 'Responsive Layouts', 'Branding Digital'],
+    },
+    {
+      num: '02 / DEV',
+      title: 'Dezvoltare Performantă',
+      desc: 'Cod curat, viteză de încărcare optimă și panou de administrare intuitiv pentru echipa ta.',
+      items: ['Custom WordPress', 'Core Web Vitals Opt.', 'Securitate Avansată'],
+    },
+    {
+      num: '03 / STRAT',
+      title: 'Consultanță & Strategie',
+      desc: 'Te ajutăm să definești clar cine este clientul tău și ce vrei să facă acesta pe site.',
+      items: ['Copywriting Strategic', 'Audit Prezență Digitală', 'Optimizare Conversii'],
+    },
+  ];
+
   return (
-    <section ref={sectionRef} className="w-full" style={{ backgroundColor: 'var(--bg-primary)', padding: 'clamp(80px, 12vh, 160px) 0' }}>
-      <div className="mx-auto" style={{ maxWidth: '1400px', padding: '0 clamp(24px, 5vw, 80px)' }}>
-        <div ref={headingRef} className="text-center mb-16">
-          <p className="text-micro text-accent mb-4">OUR WORKSPACE</p>
-          <h2 className="text-h2 text-text-primary mb-6">Where ideas come to life</h2>
-          <p className="text-body-large text-text-secondary max-w-2xl mx-auto">
-            A glimpse into our creative process and the environment where we craft exceptional digital experiences.
-          </p>
+    <section ref={sectionRef} id="servicii" className="section-padding" style={{ backgroundColor: '#F4F4F0' }}>
+      <div className="content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="max-w-2xl">
+            <span className="text-micro mb-4 block" style={{ color: '#D35400' }}>Arhitectură Digitală</span>
+            <h2 className="text-h1" style={{ color: '#002D21' }}>Servicii Adaptate IMM-urilor</h2>
+          </div>
+          <div className="text-micro text-right hidden md:block" style={{ color: '#74777D' }}>
+            SRV_CAT_001<br />SRV_CAT_002<br />SRV_CAT_003
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div ref={img1Ref} className="overflow-hidden group" style={{ border: '1px solid var(--border-subtle)' }}>
-            <div className="overflow-hidden" style={{ aspectRatio: '16/10' }}>
-              <img
-                src="/showcase-workspace.jpg"
-                alt="Our workspace"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+          {services.map((s) => (
+            <div
+              key={s.num}
+              className="service-card p-10 md:p-12 relative flex flex-col h-full group cursor-pointer"
+              style={{
+                backgroundColor: '#FAF9F5',
+                transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#002D21';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#FAF9F5';
+              }}
+            >
+              <span className="text-micro mb-10 block transition-colors duration-500" style={{ color: '#D35400' }}>
+                {s.num}
+              </span>
+              <h3 className="font-headline font-bold text-2xl mb-5 transition-colors duration-500 group-hover:text-white" style={{ color: '#002D21' }}>
+                {s.title}
+              </h3>
+              <p className="text-body text-sm mb-10 transition-colors duration-500 group-hover:text-white/60" style={{ color: '#43474C' }}>
+                {s.desc}
+              </p>
+              <div className="mt-auto pt-8 transition-colors duration-500" style={{ borderTop: '1px solid #E3E2DF' }}>
+                <ul className="space-y-2">
+                  {s.items.map((item) => (
+                    <li key={item} className="text-micro transition-colors duration-500 group-hover:text-white/80" style={{ color: '#1B1C1A' }}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div style={{ padding: '20px' }}>
-              <p className="text-micro text-accent mb-2">WORKSPACE</p>
-              <p className="text-body text-text-secondary">Modern setup for focused creativity</p>
-            </div>
-          </div>
-
-          <div ref={img2Ref} className="overflow-hidden group" style={{ border: '1px solid var(--border-subtle)' }}>
-            <div className="overflow-hidden" style={{ aspectRatio: '16/10' }}>
-              <img
-                src="/showcase-team.jpg"
-                alt="Our team"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
-            <div style={{ padding: '20px' }}>
-              <p className="text-micro text-accent mb-2">THE TEAM</p>
-              <p className="text-body text-text-secondary">Passionate designers & developers</p>
-            </div>
-          </div>
-
-          <div ref={img3Ref} className="overflow-hidden group" style={{ border: '1px solid var(--border-subtle)' }}>
-            <div className="overflow-hidden" style={{ aspectRatio: '16/10' }}>
-              <img
-                src="/showcase-process.jpg"
-                alt="Our process"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
-            <div style={{ padding: '20px' }}>
-              <p className="text-micro text-accent mb-2">THE PROCESS</p>
-              <p className="text-body text-text-secondary">From sketch to digital masterpiece</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-/* ─────────────────── Case Studies Grid + CTA ─────────────────── */
-function CaseStudiesSection() {
+/* ─────────────── Process Roadmap ─────────────── */
+function ProcessSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const header = sectionRef.current?.querySelector('.cs-header');
-      const cards = sectionRef.current?.querySelectorAll('.cs-card');
-      const cta = sectionRef.current?.querySelector('.cs-cta');
-
-      if (header) {
-        gsap.fromTo(header, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', scrollTrigger: { trigger: header, start: 'top 80%', toggleActions: 'play none none none' } });
-      }
-      if (cards) {
-        gsap.fromTo(cards, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.15, ease: 'expo.out', scrollTrigger: { trigger: cards[0], start: 'top 80%', toggleActions: 'play none none none' } });
-      }
-      if (cta) {
-        gsap.fromTo(cta, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', scrollTrigger: { trigger: cta, start: 'top 85%', toggleActions: 'play none none none' } });
-      }
+      gsap.fromTo(
+        (sectionRef.current ? Array.from(sectionRef.current.querySelectorAll('.process-step')) : []),
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
+        }
+      );
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
-  const caseStudies = [
-    { title: 'Replicant', category: 'AI Platform', thumb: '/cs-replicant-thumb.jpg', brief: 'Next-generation AI platform interface with real-time model visualization.' },
-    { title: 'Mistral', category: 'Cloud Infrastructure', thumb: '/cs-mistral-thumb.jpg', brief: 'Enterprise cloud dashboard with advanced monitoring capabilities.' },
-    { title: 'Flux', category: 'Fintech App', thumb: '/cs-flux-thumb.jpg', brief: 'Digital payment experience with seamless transaction flows.' },
-    { title: 'LMVR', category: 'Real Estate', thumb: '/cs-lmvr-thumb.jpg', brief: 'Immersive property showcase with virtual tour integration.' },
+  const steps = [
+    { num: '01', title: 'Discovery', desc: 'Analizăm afacerea, concurența și obiectivele reale pe care vrei să le atingi.' },
+    { num: '02', title: 'Blueprint', desc: 'Creăm arhitectura site-ului și structura paginilor înainte de orice linie de cod.' },
+    { num: '03', title: 'Execution', desc: 'Design-ul vizual și dezvoltarea tehnică merg mână în mână pentru precizie.' },
+    { num: '04', title: 'Launch', desc: 'Lansare controlată, teste de performanță și training pentru echipa ta.' },
   ];
 
   return (
-    <section ref={sectionRef} className="w-full" style={{ backgroundColor: 'var(--bg-primary)', padding: 'clamp(80px, 12vh, 160px) 0' }}>
-      <div className="mx-auto" style={{ maxWidth: '1400px', padding: '0 clamp(24px, 5vw, 80px)' }}>
-        <div className="cs-header">
-          <p className="text-micro text-text-muted" style={{ marginBottom: '12px' }}>SELECTED WORK</p>
-          <h2 className="text-h2 text-text-primary">Projects that define us</h2>
+    <section ref={sectionRef} id="proces" className="section-padding" style={{ backgroundColor: '#FAF9F5' }}>
+      <div className="content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
+        <div className="mb-16 text-center">
+          <span className="text-micro mb-4 block" style={{ color: '#D35400' }}>Wayfinding</span>
+          <h2 className="text-h1" style={{ color: '#002D21' }}>Procesul Nostru Structurat</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ marginTop: '64px' }}>
-          {caseStudies.map((cs) => (
-            <TiltCard key={cs.title} className="group" tiltAmount={5}>
-              <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', overflow: 'hidden', transition: 'all 0.4s ease', cursor: 'pointer' }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-accent)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; }}>
-                <div className="overflow-hidden" style={{ aspectRatio: '16/10' }}>
-                  <img src={cs.thumb} alt={cs.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                </div>
-                <div style={{ padding: '24px' }}>
-                  <p className="text-micro text-accent-light" style={{ marginBottom: '8px' }}>{cs.category}</p>
-                  <h3 className="text-h3 text-text-primary" style={{ marginBottom: '8px' }}>{cs.title}</h3>
-                  <p className="text-body text-text-secondary" style={{ marginBottom: '16px', fontSize: '0.9375rem' }}>{cs.brief}</p>
-                  <Link to="/services" className="btn-ghost" style={{ fontSize: '0.875rem' }}>
-                    View project <span className="arrow">&rarr;</span>
-                  </Link>
+        <div className="relative">
+          <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-4 pointer-events-none opacity-5">
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="border-l border-r" style={{ borderColor: '#002D21' }} />
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 relative z-10">
+            {steps.map((step, i) => (
+              <div
+                key={step.num}
+                className="process-step p-8 relative group"
+                style={{
+                  borderBottom: i < 3 ? '1px solid #E3E2DF' : 'none',
+                  borderRight: i < 3 ? '1px solid #E3E2DF' : 'none',
+                }}
+              >
+                <span
+                  className="absolute -top-4 -left-4 font-headline font-bold text-8xl select-none transition-colors duration-500 group-hover:text-accent-orange/10"
+                  style={{ color: 'rgba(196,198,205,0.15)' }}
+                >
+                  {step.num}
+                </span>
+                <div className="relative pt-10 space-y-4">
+                  <h4 className="font-headline font-bold text-xl" style={{ color: '#002D21' }}>{step.title}</h4>
+                  <p className="text-body text-sm" style={{ color: '#43474C' }}>{step.desc}</p>
+                  {i < 3 ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D35400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D35400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12l5 5L20 7" />
+                    </svg>
+                  )}
                 </div>
               </div>
-            </TiltCard>
-          ))}
-        </div>
-
-        <div className="cs-cta text-center" style={{ marginTop: '80px' }}>
-          <h2 className="text-h2 text-text-primary" style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}>
-            Ready to build something extraordinary?
-          </h2>
-          <p className="text-body text-text-secondary" style={{ marginTop: '16px' }}>
-            Let&apos;s discuss your next project.
-          </p>
-          <div style={{ marginTop: '32px' }}>
-            <Link to="/contact" className="btn-primary">
-              START A PROJECT
-            </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -555,17 +484,194 @@ function CaseStudiesSection() {
   );
 }
 
-/* ─────────────────────── Home Page ─────────────────────── */
+/* ───────────────── Testimonials ───────────────── */
+function TestimonialsSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        (sectionRef.current ? Array.from(sectionRef.current.querySelectorAll('.testimonial-animate')) : []),
+        { opacity: 0, x: -40 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="section-padding overflow-hidden" style={{ backgroundColor: '#104436', color: '#FAF9F5' }}>
+      <div className="content-max-width relative" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
+        <div className="absolute top-0 right-0 opacity-5 pointer-events-none select-none hidden md:block">
+          <span className="font-headline font-bold text-[180px] -tracking-widest">QUOTE</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-4 flex flex-col justify-between">
+            <div className="testimonial-animate">
+              <span className="text-micro mb-4 block" style={{ color: '#7FB19E' }}>Feedback Parteneri</span>
+              <h2 className="font-headline font-bold text-4xl" style={{ color: '#FAF9F5' }}>
+                Ce spun cei cu care am lucrat
+              </h2>
+            </div>
+            <div className="testimonial-animate hidden md:block">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="#FF854A" stroke="none">
+                <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="md:col-span-8">
+            <div className="testimonial-animate p-10 md:p-12" style={{ backgroundColor: 'rgba(0,45,33,0.4)', borderLeft: '4px solid #FF854A' }}>
+              <p className="text-2xl md:text-3xl font-headline font-light leading-relaxed mb-8" style={{ color: '#FAF9F5' }}>
+                "BBL Sites nu ne-au oferit doar un site, ci o nouă perspectivă asupra business-ului nostru digital. Au înțeles rapid nevoile specifice ale domeniului nostru tehnic."
+              </p>
+              <div className="flex items-center gap-6">
+                <img
+                  src="/testimonial-avatar.jpg"
+                  alt="Mihai Ionescu"
+                  className="w-16 h-16 rounded-full object-cover"
+                  style={{ filter: 'grayscale(0.3)' }}
+                />
+                <div>
+                  <h5 className="font-bold text-lg" style={{ color: '#FAF9F5' }}>Mihai Ionescu</h5>
+                  <p className="text-micro" style={{ color: '#7FB19E' }}>Director General, BuildRO Systems</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────── Final CTA ─────────────── */
+function CTASection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        (sectionRef.current ? Array.from(sectionRef.current.querySelectorAll('.cta-animate')) : []),
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} id="contact" className="section-padding" style={{ backgroundColor: '#FAF9F5' }}>
+      <div className="content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
+        <div
+          className="p-12 md:p-20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12"
+          style={{ backgroundColor: '#F4F4F0' }}
+        >
+          <div className="absolute bottom-0 left-0 w-full h-1" style={{ backgroundColor: '#D35400' }} />
+
+          <div className="max-w-2xl relative z-10">
+            <h2 className="cta-animate text-h1 mb-6" style={{ color: '#002D21' }}>
+              Pregătit să transformi prezența ta digitală?
+            </h2>
+            <p className="cta-animate text-body-lg" style={{ color: '#43474C' }}>
+              Hai să discutăm despre cum putem face afacerea ta să strălucească online.
+            </p>
+          </div>
+
+          <div className="relative z-10 cta-animate">
+            <a href="mailto:office@bblsites.ro" className="btn-primary" style={{ padding: '20px 40px', fontSize: '0.75rem' }}>
+              Solicită o ofertă
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+
+          <div className="absolute top-10 right-10 opacity-[0.03] select-none pointer-events-none">
+            <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="#002D21" strokeWidth="0.5">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────── Footer ─────────────────── */
+function Footer() {
+  return (
+    <footer style={{ backgroundColor: '#104436', color: '#FAF9F5' }}>
+      <div className="content-max-width flex flex-col md:flex-row justify-between items-end w-full py-16 gap-8" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
+        <div className="flex flex-col gap-6 w-full md:w-auto">
+          <div className="font-headline font-bold text-2xl">BBL Sites</div>
+          <p className="text-micro max-w-xs" style={{ color: 'rgba(250,249,245,0.5)', lineHeight: 1.8 }}>
+            Crafting digital architectures for businesses that value precision and performance.
+          </p>
+          <div className="flex gap-6 mt-4">
+            {['LinkedIn', 'Instagram', 'Behance'].map((social) => (
+              <a key={social} href="#" className="text-micro transition-opacity hover:opacity-100" style={{ color: 'rgba(250,249,245,0.5)' }}>
+                {social}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-12 text-right">
+          <div className="flex flex-col gap-4">
+            <span className="text-micro font-bold" style={{ color: '#D35400' }}>Link-uri</span>
+            {['Servicii', 'Proces', 'Privacy', 'Contact'].map((link) => (
+              <a key={link} href={`#${link.toLowerCase()}`} className="text-micro transition-opacity hover:text-white" style={{ color: 'rgba(250,249,245,0.5)' }}>
+                {link}
+              </a>
+            ))}
+          </div>
+          <div className="flex flex-col gap-4">
+            <span className="text-micro font-bold" style={{ color: '#D35400' }}>Localizare</span>
+            <span className="text-micro" style={{ color: 'rgba(250,249,245,0.5)' }}>București, România</span>
+            <span className="text-micro" style={{ color: 'rgba(250,249,245,0.5)' }}>office@bblsites.ro</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="content-max-width flex justify-between items-center pb-12" style={{ padding: '0 clamp(24px, 5vw, 80px)', opacity: 0.3 }}>
+        <div className="text-micro">© 2025 BBL Sites. Craft Digital și Arhitectură Web.</div>
+        <div className="text-micro">SYSTEM_READY: 200 OK</div>
+      </div>
+    </footer>
+  );
+}
+
+/* ─────────────────── Home Page ─────────────────── */
 export default function Home() {
   return (
-    <Layout>
-      <HeroSection />
-      <MarqueeSection />
-      <LogoCarouselSection />
-      <ValueCardsSection />
-      <ShowcaseSection />
-      <VisualShowcaseSection />
-      <CaseStudiesSection />
-    </Layout>
+    <div className="relative min-h-[100dvh]" style={{ backgroundColor: '#FAF9F5' }}>
+      <Navbar />
+      <main>
+        <HeroSection />
+        <TrustBar />
+        <ProblemSection />
+        <ServicesSection />
+        <ProcessSection />
+        <TestimonialsSection />
+        <CTASection />
+      </main>
+      <Footer />
+    </div>
   );
 }

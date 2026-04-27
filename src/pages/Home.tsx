@@ -20,7 +20,7 @@ function Navbar() {
   }, []);
 
   const navLinks = [
-    { label: 'Servicii', href: '#servicii' },
+    { label: 'Servicii', href: '#/servicii' },
     { label: 'Proces', href: '#proces' },
     { label: 'Portofoliu', href: '#portofoliu' },
     { label: 'Cine suntem', href: '#despre' },
@@ -376,7 +376,7 @@ function ServicesSection() {
           {services.map((s) => (
             <div
               key={s.num}
-              className="service-card p-10 md:p-12 relative flex flex-col h-full group cursor-pointer"
+              className="service-card p-10 md:p-12 relative flex flex-col h-full group cursor-pointer text-[#002D21] hover:text-white"
               style={{
                 backgroundColor: '#FAF9F5',
                 border: '1px solid #E3E2DF',
@@ -391,19 +391,19 @@ function ServicesSection() {
                 e.currentTarget.style.borderColor = '#E3E2DF';
               }}
             >
-              <span className="text-micro mb-10 block text-[#D35400] transition-colors duration-500 group-hover:text-[#FF854A]">
+              <span className="text-micro mb-10 block text-[#D35400] group-hover:text-[#FF854A] transition-colors duration-500">
                 {s.num}
               </span>
-              <h3 className="font-headline font-bold text-2xl mb-5 text-[#002D21] transition-colors duration-500 group-hover:text-white">
+              <h3 className="font-headline font-bold text-2xl mb-5 group-hover:text-white transition-colors duration-500">
                 {s.title}
               </h3>
-              <p className="text-body text-sm mb-10 text-[#43474C] transition-colors duration-500 group-hover:text-white/70">
+              <p className="text-body text-sm mb-10 text-[#43474C] group-hover:text-white/70 transition-colors duration-500">
                 {s.desc}
               </p>
-              <div className="mt-auto pt-8 border-t border-[#E3E2DF] transition-colors duration-500 group-hover:border-white/10">
+              <div className="mt-auto pt-8 border-t border-[#E3E2DF] group-hover:border-white/10 transition-colors duration-500">
                 <ul className="space-y-2">
                   {s.items.map((item) => (
-                    <li key={item} className="text-micro text-[#1B1C1A] transition-colors duration-500 group-hover:text-white/80">
+                    <li key={item} className="text-micro text-[#1B1C1A] group-hover:text-white/80 transition-colors duration-500">
                       {item}
                     </li>
                   ))}

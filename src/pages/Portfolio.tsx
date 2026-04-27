@@ -62,12 +62,22 @@ function ProjectsGrid() {
 
   const projects = [
     {
+      title: 'e-meniu.ro',
+      category: 'Horeca • WordPress',
+      desc: 'Platformă digitală de meniu pentru restaurante, cofetării și baruri. Oferă QR code-uri personalizate, administrare rapidă a produselor și design modern adaptat pentru orice dispozitiv.',
+      tags: ['WordPress', 'WooCommerce', 'QR Menu'],
+      image: '/portofoliu-emeniu.jpg',
+      size: 'large',
+      link: 'https://e-meniu.ro',
+    },
+    {
       title: 'Flux Fintech',
       category: 'Fintech • App Design',
       desc: 'Platformă de management financiar pentru IMM-uri cu dashboard real-time și integrare bancară.',
       tags: ['UI/UX', 'React', 'API Banking'],
       image: '/portofoliu-flux.jpg',
-      size: 'large',
+      size: 'medium',
+      link: null,
     },
     {
       title: 'LMVR Properties',
@@ -76,6 +86,7 @@ function ProjectsGrid() {
       tags: ['WordPress', 'CRM', 'SEO'],
       image: '/portofoliu-lmvr.jpg',
       size: 'medium',
+      link: null,
     },
     {
       title: 'MedConnect',
@@ -84,6 +95,7 @@ function ProjectsGrid() {
       tags: ['Next.js', 'PostgreSQL', 'Twilio'],
       image: '/portofoliu-med.jpg',
       size: 'medium',
+      link: null,
     },
     {
       title: 'LogisticCore',
@@ -91,7 +103,8 @@ function ProjectsGrid() {
       desc: 'Dashboard intern pentru tracking flotă, rutare optimă și raportare KPI-uri în timp real.',
       tags: ['Vue.js', 'Maps API', 'Analytics'],
       image: '/portofoliu-logistic.jpg',
-      size: 'large',
+      size: 'medium',
+      link: null,
     },
   ];
 
@@ -99,54 +112,109 @@ function ProjectsGrid() {
     <section ref={sectionRef} className="section-padding" style={{ backgroundColor: '#F4F4F0' }}>
       <div className="content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <div
-              key={project.title}
-              className="project-card group cursor-pointer"
-              style={{
-                backgroundColor: '#FAF9F5',
-                border: '1px solid #E3E2DF',
-                overflow: 'hidden',
-                transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#002D21';
-                e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,45,33,0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#E3E2DF';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              <div className="overflow-hidden" style={{ aspectRatio: project.size === 'large' ? '16/10' : '4/3' }}>
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  style={{ filter: 'grayscale(0.2)' }}
-                />
-              </div>
-              <div style={{ padding: '32px' }}>
-                <p className="text-micro mb-3" style={{ color: '#D35400' }}>{project.category}</p>
-                <h3 className="font-headline font-bold text-2xl mb-3" style={{ color: '#002D21' }}>{project.title}</h3>
-                <p className="text-body text-sm mb-6" style={{ color: '#43474C' }}>{project.desc}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-micro px-3 py-1"
-                      style={{ backgroundColor: '#F4F4F0', color: '#74777D' }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+          {projects.map((project) => {
+            const isLink = !!project.link;
+            return isLink ? (
+              <a
+                key={project.title}
+                href={project.link!}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-card group"
+                style={{
+                  backgroundColor: '#FAF9F5',
+                  border: '1px solid #E3E2DF',
+                  overflow: 'hidden',
+                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                  display: 'block',
+                  textDecoration: 'none',
+                }}
+                onMouseEnter={(e: any) => {
+                  e.currentTarget.style.borderColor = '#002D21';
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,45,33,0.1)';
+                }}
+                onMouseLeave={(e: any) => {
+                  e.currentTarget.style.borderColor = '#E3E2DF';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div className="overflow-hidden" style={{ aspectRatio: project.size === 'large' ? '16/10' : '4/3' }}>
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    style={{ filter: 'grayscale(0.2)' }}
+                  />
                 </div>
-                <span className="btn-ghost group-hover:text-accent-orange">
-                  Vezi detalii <span className="arrow">&rarr;</span>
-                </span>
+                <div style={{ padding: '32px' }}>
+                  <p className="text-micro mb-3" style={{ color: '#D35400' }}>{project.category}</p>
+                  <h3 className="font-headline font-bold text-2xl mb-3" style={{ color: '#002D21' }}>{project.title}</h3>
+                  <p className="text-body text-sm mb-6" style={{ color: '#43474C' }}>{project.desc}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map((tag: string) => (
+                      <span
+                        key={tag}
+                        className="text-micro px-3 py-1"
+                        style={{ backgroundColor: '#F4F4F0', color: '#74777D' }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="btn-ghost">
+                    Vezi site-ul live <span className="arrow">&rarr;</span>
+                  </span>
+                </div>
+              </a>
+            ) : (
+              <div
+                key={project.title}
+                className="project-card group cursor-pointer"
+                style={{
+                  backgroundColor: '#FAF9F5',
+                  border: '1px solid #E3E2DF',
+                  overflow: 'hidden',
+                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+                onMouseEnter={(e: any) => {
+                  e.currentTarget.style.borderColor = '#002D21';
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,45,33,0.1)';
+                }}
+                onMouseLeave={(e: any) => {
+                  e.currentTarget.style.borderColor = '#E3E2DF';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div className="overflow-hidden" style={{ aspectRatio: project.size === 'large' ? '16/10' : '4/3' }}>
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    style={{ filter: 'grayscale(0.2)' }}
+                  />
+                </div>
+                <div style={{ padding: '32px' }}>
+                  <p className="text-micro mb-3" style={{ color: '#D35400' }}>{project.category}</p>
+                  <h3 className="font-headline font-bold text-2xl mb-3" style={{ color: '#002D21' }}>{project.title}</h3>
+                  <p className="text-body text-sm mb-6" style={{ color: '#43474C' }}>{project.desc}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map((tag: string) => (
+                      <span
+                        key={tag}
+                        className="text-micro px-3 py-1"
+                        style={{ backgroundColor: '#F4F4F0', color: '#74777D' }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="btn-ghost group-hover:text-accent-orange">
+                    Vezi detalii <span className="arrow">&rarr;</span>
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

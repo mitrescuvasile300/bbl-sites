@@ -37,8 +37,12 @@ export default function Navbar() {
         }}
       >
         <nav className="flex justify-between items-center w-full py-6 content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
-          <Link to="/" className="font-headline font-bold text-xl tracking-tight" style={{ color: '#002D21' }}>
-            BBL Sites
+          <Link to="/" className="flex items-center shrink-0">
+            <img
+              src="/logo-bbl-nav.png"
+              alt="BBL Sites"
+              style={{ height: '32px', width: 'auto', objectFit: 'contain' }}
+            />
           </Link>
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (

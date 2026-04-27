@@ -36,8 +36,12 @@ function Navbar() {
         }}
       >
         <nav className="flex justify-between items-center w-full py-6 content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
-          <a href="#" className="font-headline font-bold text-xl tracking-tight" style={{ color: '#002D21' }}>
-            BBL Sites
+          <a href="#" className="flex items-center shrink-0">
+            <img
+              src="/logo-bbl-nav.png"
+              alt="BBL Sites"
+              style={{ height: '32px', width: 'auto', objectFit: 'contain' }}
+            />
           </a>
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
@@ -126,12 +130,19 @@ function HeroSection() {
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12 w-full items-center content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)', minHeight: 'calc(100dvh - 100px)' }}>
         <div className="md:col-span-7 space-y-8 relative z-10">
-          <div ref={badgeRef} className="flex items-center gap-3">
-            <span className="text-micro px-3 py-1 rounded-sm" style={{ backgroundColor: '#FFDBCD', color: '#481800' }}>
-              Digital Craft Studio
-            </span>
-            <div className="h-px w-12" style={{ backgroundColor: '#C4C6CD' }} />
-            <span className="text-micro" style={{ color: '#74777D' }}>44.4268° N, 26.1025° E</span>
+          <div ref={badgeRef}>
+            <img
+              src="/logo-bbl-main.png"
+              alt="BBL Sites"
+              style={{ height: '60px', width: 'auto', objectFit: 'contain', marginBottom: '16px' }}
+            />
+            <div className="flex items-center gap-3">
+              <span className="text-micro px-3 py-1 rounded-sm" style={{ backgroundColor: '#FFDBCD', color: '#481800' }}>
+                Digital Craft Studio
+              </span>
+              <div className="h-px w-12" style={{ backgroundColor: '#C4C6CD' }} />
+              <span className="text-micro" style={{ color: '#74777D' }}>44.4268° N, 26.1025° E</span>
+            </div>
           </div>
 
           <h1 ref={headlineRef} className="text-display-1" style={{ color: '#002D21' }}>

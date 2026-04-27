@@ -5,7 +5,13 @@ export default function Footer() {
     <footer style={{ backgroundColor: '#104436', color: '#FAF9F5' }}>
       <div className="content-max-width flex flex-col md:flex-row justify-between items-end w-full py-16 gap-8" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
         <div className="flex flex-col gap-6 w-full md:w-auto">
-          <div className="font-headline font-bold text-2xl">BBL Sites</div>
+          <Link to="/" className="shrink-0">
+            <img
+              src="/logo-bbl-nav.png"
+              alt="BBL Sites"
+              style={{ height: '28px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }}
+            />
+          </Link>
           <p className="text-micro max-w-xs" style={{ color: 'rgba(250,249,245,0.5)', lineHeight: 1.8 }}>
             Doi programatori full-stack cu 28+ ani de experiență cumulată, construind website-uri pentru IMM-uri.
           </p>

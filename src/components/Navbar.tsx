@@ -23,6 +23,7 @@ export default function Navbar() {
     { label: 'Servicii', to: '/#servicii' },
     { label: 'Proces', to: '/proces' },
     { label: 'Portofoliu', to: '/portofoliu' },
+    { label: 'Cine suntem', to: '/despre' },
     { label: 'Contact', to: '/contact' },
   ];
 

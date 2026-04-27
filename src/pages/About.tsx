@@ -117,7 +117,7 @@ function AboutTeam() {
   const team = [
     {
       name: 'Programator 1',
-      years: '12 ani',
+      years: '12 ani de experiență',
       focus: 'Java • Spring Boot • Angular',
       bio: '12 ani de experiență în dezvoltarea de aplicații enterprise. Specializare pe arhitectură backend cu Java și Spring Boot, plus frontend modern cu Angular. A construit sisteme care procesează milioane de requesturi zilnic.',
       skills: ['Java', 'Spring Boot', 'Angular', 'PostgreSQL', 'Docker', 'AWS'],
@@ -125,7 +125,7 @@ function AboutTeam() {
     },
     {
       name: 'Programator 2',
-      years: '16 ani',
+      years: '16 ani de experiență',
       focus: 'Full Stack • Enterprise • Cloud',
       bio: '16 ani de experiență în programare. Background solid în dezvoltarea full-stack pentru corporații mari, cu expertiză în arhitectură cloud, microservicii și integrări complexe. Acum aplică aceeași rigurozitate pentru fiecare client.',
       skills: ['Java', 'Spring Boot', 'Angular', 'React', 'Shopify', 'WordPress'],
@@ -158,7 +158,7 @@ function AboutTeam() {
                   />
                 </div>
                 <div className="sm:col-span-2 p-8 flex flex-col justify-center">
-                  <p className="text-micro mb-2" style={{ color: '#D35400' }}>{member.years} experiență</p>
+                  <p className="text-micro mb-2" style={{ color: '#D35400' }}>{member.years}</p>
                   <h3 className="font-headline font-bold text-2xl mb-2" style={{ color: '#002D21' }}>{member.name}</h3>
                   <p className="text-micro mb-4" style={{ color: '#74777D' }}>{member.focus}</p>
                   <p className="text-body text-sm mb-5" style={{ color: '#43474C' }}>{member.bio}</p>

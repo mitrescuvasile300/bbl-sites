@@ -132,11 +132,6 @@ function HeroSection() {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12 w-full items-center content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)', minHeight: 'calc(100dvh - 100px)' }}>
         <div className="md:col-span-7 space-y-8 relative z-10">
           <div ref={badgeRef}>
-            <img
-              src="/logo-bbl-main.png"
-              alt="BBL Sites"
-              style={{ height: '60px', width: 'auto', objectFit: 'contain', marginBottom: '16px' }}
-            />
             <div className="flex items-center gap-3">
               <span className="text-micro px-3 py-1 rounded-sm" style={{ backgroundColor: '#FFDBCD', color: '#481800' }}>
                 Digital Craft Studio
@@ -466,41 +461,25 @@ function ProcessSection() {
       num: '01', 
       title: 'Discovery', 
       desc: 'Analizăm afacerea, concurența și obiectivele reale pe care vrei să le atingi.',
-      icon: (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
-        </svg>
-      ),
+      image: '/process-discovery.jpg',
     },
     { 
       num: '02', 
       title: 'Blueprint', 
       desc: 'Creăm arhitectura site-ului și structura paginilor înainte de orice linie de cod.',
-      icon: (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 6h20M2 12h20M2 18h20"/><path d="M6 3v18"/><path d="M12 3v18"/><path d="M18 3v18"/>
-        </svg>
-      ),
+      image: '/process-blueprint.jpg',
     },
     { 
       num: '03', 
       title: 'Execution', 
       desc: 'Design-ul vizual și dezvoltarea tehnică merg mână în mână pentru precizie.',
-      icon: (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-        </svg>
-      ),
+      image: '/process-execution.jpg',
     },
     { 
       num: '04', 
       title: 'Launch', 
       desc: 'Lansare controlată, teste de performanță și training pentru echipa ta.',
-      icon: (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-        </svg>
-      ),
+      image: '/process-launch.jpg',
     },
   ];
 
@@ -547,9 +526,11 @@ function ProcessSection() {
                       boxShadow: '0 4px 20px rgba(0,0,0,0.04)'
                     }}
                   >
-                    <div className="transition-colors duration-500 group-hover:text-[#D35400]" style={{ color: '#C4C6CD' }}>
-                      {step.icon}
-                    </div>
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className="w-full h-full object-cover rounded-full"
+                    />
                     {/* Number badge */}
                     <div 
                       className="absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center font-headline font-bold text-sm"

@@ -41,7 +41,7 @@ export default function Navbar() {
             <img
               src="/logo-bbl-nav.png"
               alt="BBL Sites"
-              style={{ height: '32px', width: 'auto', objectFit: 'contain' }}
+              style={{ height: '44px', width: 'auto', objectFit: 'contain' }}
             />
           </Link>
           <div className="hidden md:flex items-center gap-10">

@@ -23,6 +23,7 @@ function Navbar() {
     { label: 'Servicii', href: '#servicii' },
     { label: 'Proces', href: '#proces' },
     { label: 'Portofoliu', href: '#portofoliu' },
+    { label: 'Cine suntem', href: '#despre' },
     { label: 'Contact', href: '#contact' },
   ];
 
@@ -40,7 +41,7 @@ function Navbar() {
             <img
               src="/logo-bbl-nav.png"
               alt="BBL Sites"
-              style={{ height: '32px', width: 'auto', objectFit: 'contain' }}
+              style={{ height: '44px', width: 'auto', objectFit: 'contain' }}
             />
           </a>
           <div className="hidden md:flex items-center gap-10">
@@ -378,28 +379,31 @@ function ServicesSection() {
               className="service-card p-10 md:p-12 relative flex flex-col h-full group cursor-pointer"
               style={{
                 backgroundColor: '#FAF9F5',
+                border: '1px solid #E3E2DF',
                 transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#002D21';
+                e.currentTarget.style.borderColor = '#002D21';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#FAF9F5';
+                e.currentTarget.style.borderColor = '#E3E2DF';
               }}
             >
-              <span className="text-micro mb-10 block transition-colors duration-500" style={{ color: '#D35400' }}>
+              <span className="text-micro mb-10 block text-[#D35400] transition-colors duration-500 group-hover:text-[#FF854A]">
                 {s.num}
               </span>
-              <h3 className="font-headline font-bold text-2xl mb-5 transition-colors duration-500 group-hover:text-white" style={{ color: '#002D21' }}>
+              <h3 className="font-headline font-bold text-2xl mb-5 text-[#002D21] transition-colors duration-500 group-hover:text-white">
                 {s.title}
               </h3>
-              <p className="text-body text-sm mb-10 transition-colors duration-500 group-hover:text-white/60" style={{ color: '#43474C' }}>
+              <p className="text-body text-sm mb-10 text-[#43474C] transition-colors duration-500 group-hover:text-white/70">
                 {s.desc}
               </p>
-              <div className="mt-auto pt-8 transition-colors duration-500" style={{ borderTop: '1px solid #E3E2DF' }}>
+              <div className="mt-auto pt-8 border-t border-[#E3E2DF] transition-colors duration-500 group-hover:border-white/10">
                 <ul className="space-y-2">
                   {s.items.map((item) => (
-                    <li key={item} className="text-micro transition-colors duration-500 group-hover:text-white/80" style={{ color: '#1B1C1A' }}>
+                    <li key={item} className="text-micro text-[#1B1C1A] transition-colors duration-500 group-hover:text-white/80">
                       {item}
                     </li>
                   ))}
@@ -413,22 +417,44 @@ function ServicesSection() {
   );
 }
 
-/* ─────────────── Process Roadmap ─────────────── */
+/* ─────────────── Process Roadmap (Premium) ─────────────── */
 function ProcessSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const stepsRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // Header animation
+      gsap.fromTo(
+        '.process-header',
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0, duration: 0.8, ease: 'expo.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+        }
+      );
+      
+      // Timeline bar animation
+      gsap.fromTo(
+        '.timeline-progress',
+        { scaleX: 0 },
+        {
+          scaleX: 1, duration: 1.5, ease: 'expo.out',
+          scrollTrigger: { trigger: stepsRef.current, start: 'top 80%' },
+        }
+      );
+      
+      // Steps stagger
       gsap.fromTo(
         (sectionRef.current ? Array.from(sectionRef.current.querySelectorAll('.process-step')) : []),
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.7,
-          stagger: 0.12,
+          duration: 0.8,
+          stagger: 0.2,
           ease: 'expo.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
+          scrollTrigger: { trigger: stepsRef.current, start: 'top 75%' },
         }
       );
     }, sectionRef);
@@ -436,58 +462,137 @@ function ProcessSection() {
   }, []);
 
   const steps = [
-    { num: '01', title: 'Discovery', desc: 'Analizăm afacerea, concurența și obiectivele reale pe care vrei să le atingi.' },
-    { num: '02', title: 'Blueprint', desc: 'Creăm arhitectura site-ului și structura paginilor înainte de orice linie de cod.' },
-    { num: '03', title: 'Execution', desc: 'Design-ul vizual și dezvoltarea tehnică merg mână în mână pentru precizie.' },
-    { num: '04', title: 'Launch', desc: 'Lansare controlată, teste de performanță și training pentru echipa ta.' },
+    { 
+      num: '01', 
+      title: 'Discovery', 
+      desc: 'Analizăm afacerea, concurența și obiectivele reale pe care vrei să le atingi.',
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
+        </svg>
+      ),
+    },
+    { 
+      num: '02', 
+      title: 'Blueprint', 
+      desc: 'Creăm arhitectura site-ului și structura paginilor înainte de orice linie de cod.',
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 6h20M2 12h20M2 18h20"/><path d="M6 3v18"/><path d="M12 3v18"/><path d="M18 3v18"/>
+        </svg>
+      ),
+    },
+    { 
+      num: '03', 
+      title: 'Execution', 
+      desc: 'Design-ul vizual și dezvoltarea tehnică merg mână în mână pentru precizie.',
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      ),
+    },
+    { 
+      num: '04', 
+      title: 'Launch', 
+      desc: 'Lansare controlată, teste de performanță și training pentru echipa ta.',
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+      ),
+    },
   ];
 
   return (
-    <section ref={sectionRef} id="proces" className="section-padding" style={{ backgroundColor: '#FAF9F5' }}>
-      <div className="content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
-        <div className="mb-16 text-center">
+    <section ref={sectionRef} id="proces" className="section-padding relative overflow-hidden" style={{ backgroundColor: '#FAF9F5' }}>
+      {/* Subtle background grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+        <div className="h-full w-full" style={{ 
+          backgroundImage: 'linear-gradient(#002D21 1px, transparent 1px), linear-gradient(90deg, #002D21 1px, transparent 1px)',
+          backgroundSize: '80px 80px'
+        }} />
+      </div>
+
+      <div className="content-max-width relative z-10" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
+        {/* Header */}
+        <div className="process-header text-center mb-20">
           <span className="text-micro mb-4 block" style={{ color: '#D35400' }}>Wayfinding</span>
-          <h2 className="text-h1" style={{ color: '#002D21' }}>Procesul Nostru Structurat</h2>
+          <h2 className="text-h1 mb-4" style={{ color: '#002D21' }}>Procesul Nostru Structurat</h2>
+          <p className="text-body" style={{ color: '#74777D', maxWidth: '500px', margin: '0 auto' }}>
+            Fiecare pas are livrabile clare și un termen estimat. Fără surprize.
+          </p>
         </div>
 
-        <div className="relative">
-          <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-4 pointer-events-none opacity-5">
-            {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="border-l border-r" style={{ borderColor: '#002D21' }} />
-            ))}
+        {/* Steps with connecting line */}
+        <div ref={stepsRef} className="relative">
+          {/* Connecting horizontal line (desktop only) */}
+          <div className="hidden md:block absolute top-[60px] left-[12.5%] right-[12.5%] h-[2px]" style={{ backgroundColor: '#E3E2DF' }}>
+            <div className="timeline-progress h-full origin-left" style={{ backgroundColor: '#D35400', width: '100%' }} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6 relative z-10">
             {steps.map((step, i) => (
               <div
                 key={step.num}
-                className="process-step p-8 relative group"
-                style={{
-                  borderBottom: i < 3 ? '1px solid #E3E2DF' : 'none',
-                  borderRight: i < 3 ? '1px solid #E3E2DF' : 'none',
-                }}
+                className="process-step group"
               >
-                <span
-                  className="absolute -top-4 -left-4 font-headline font-bold text-8xl select-none transition-colors duration-500 group-hover:text-accent-orange/10"
-                  style={{ color: 'rgba(196,198,205,0.15)' }}
-                >
-                  {step.num}
-                </span>
-                <div className="relative pt-10 space-y-4">
-                  <h4 className="font-headline font-bold text-xl" style={{ color: '#002D21' }}>{step.title}</h4>
-                  <p className="text-body text-sm" style={{ color: '#43474C' }}>{step.desc}</p>
-                  {i < 3 ? (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D35400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D35400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12l5 5L20 7" />
-                    </svg>
-                  )}
+                {/* Step number circle */}
+                <div className="flex flex-col items-center text-center">
+                  <div 
+                    className="w-[120px] h-[120px] rounded-full flex items-center justify-center mb-6 relative transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg"
+                    style={{ 
+                      backgroundColor: '#FAF9F5', 
+                      border: '2px solid #E3E2DF',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.04)'
+                    }}
+                  >
+                    <div className="transition-colors duration-500 group-hover:text-[#D35400]" style={{ color: '#C4C6CD' }}>
+                      {step.icon}
+                    </div>
+                    {/* Number badge */}
+                    <div 
+                      className="absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center font-headline font-bold text-sm"
+                      style={{ backgroundColor: '#D35400', color: '#FAF9F5' }}
+                    >
+                      {step.num}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="space-y-3 max-w-[240px]">
+                    <h4 className="font-headline font-bold text-xl transition-colors duration-500 group-hover:text-[#D35400]" style={{ color: '#002D21' }}>
+                      {step.title}
+                    </h4>
+                    <p className="text-body text-sm leading-relaxed" style={{ color: '#74777D' }}>
+                      {step.desc}
+                    </p>
+                  </div>
                 </div>
+
+                {/* Arrow connector (mobile) */}
+                {i < 3 && (
+                  <div className="flex justify-center my-6 md:hidden">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D35400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 5v14M19 12l-7 7-7-7" />
+                    </svg>
+                  </div>
+                )}
               </div>
             ))}
+          </div>
+
+          {/* Duration bar */}
+          <div className="mt-16 flex justify-center">
+            <div 
+              className="inline-flex items-center gap-4 px-8 py-4"
+              style={{ backgroundColor: '#002D21', color: '#FAF9F5', borderRadius: '2px' }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF854A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <span className="text-micro font-bold" style={{ color: '#FAF9F5' }}>DURATĂ TOTALĂ ESTIMATĂ: 4-6 SĂPTĂMÂNI</span>
+            </div>
           </div>
         </div>
       </div>

@@ -118,6 +118,19 @@ export const AnimatedCard = ({
   },
 ];
 
+// TODO SECURITY: dangerouslySetInnerHTML is used below without sanitization.
+// The highlightSyntax output should be sanitized before being passed to
+// dangerouslySetInnerHTML to prevent XSS if code snippets ever contain
+// user-supplied input. The escapeHtml helper below is a minimal sanitizer.
+function escapeHtml(raw: string): string {
+  return raw
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export default function CodeShowcase() {
   const [activeTab, setActiveTab] = useState(0);
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
@@ -165,7 +178,10 @@ export default function CodeShowcase() {
     return () => clearInterval(intervalRef.current);
   }, [activeTab, isVisible]);
 
-  const highlightSyntax = (line: string) => {
+  const highlightSyntax = (rawLine: string) => {
+    // First, HTML-escape the raw line so injected HTML in the code
+    // snippet cannot be interpreted as live markup.
+    let line = escapeHtml(rawLine);
     // Keywords
     line = line.replace(/\b(import|export|from|const|let|var|return|if|else|useState|useEffect)\b/g, '<span class="code-keyword">$1</span>');
     // Functions

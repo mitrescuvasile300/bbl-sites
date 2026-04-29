@@ -2,8 +2,6 @@ import { useEffect, useRef, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -330,7 +328,6 @@ export default function About() {
 
   return (
     <div style={{ backgroundColor: '#FAF9F5' }}>
-      <Navbar />
       <main>
         <AboutHero />
         <AboutStory />
@@ -339,7 +336,6 @@ export default function About() {
         <AboutProjects />
         <AboutCTA />
       </main>
-      <Footer />
     </div>
   );
 }

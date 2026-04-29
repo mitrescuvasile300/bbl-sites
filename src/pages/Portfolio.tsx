@@ -2,8 +2,6 @@ import { useEffect, useRef, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -287,14 +285,12 @@ export default function Portfolio() {
 
   return (
     <div style={{ backgroundColor: '#FAF9F5' }}>
-      <Navbar />
       <main>
         <PortfolioHero />
         <ProjectsGrid />
         <PortfolioStats />
         <PortfolioCTA />
       </main>
-      <Footer />
     </div>
   );
 }

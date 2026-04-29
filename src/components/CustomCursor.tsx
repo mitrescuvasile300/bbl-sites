@@ -8,6 +8,14 @@ export default function CustomCursor() {
   const posRef = useRef({ x: 0, y: 0 });
   const targetRef = useRef({ x: 0, y: 0 });
 
+  // Use refs for hover state so we don't re-create listeners on state change
+  const hoveringRef = useRef(false);
+  const visibleRef = useRef(false);
+
+  useEffect(() => {
+    hoveringRef.current = isHovering;
+  }, [isHovering]);
+
   useEffect(() => {
     // Check for touch device
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
@@ -20,21 +28,48 @@ export default function CustomCursor() {
 
     const onMouseMove = (e: MouseEvent) => {
       targetRef.current = { x: e.clientX, y: e.clientY };
-      if (!isVisible) setIsVisible(true);
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setIsVisible(true);
+      }
     };
 
-    const onMouseEnter = () => setIsVisible(true);
-    const onMouseLeave = () => setIsVisible(false);
+    const onMouseEnter = () => {
+      visibleRef.current = true;
+      setIsVisible(true);
+    };
+    const onMouseLeave = () => {
+      visibleRef.current = false;
+      setIsVisible(false);
+    };
 
-    // Track interactive elements
+    // Track interactive elements — store handlers so we can clean them up
+    const hoverEnterHandler = () => {
+      hoveringRef.current = true;
+      setIsHovering(true);
+    };
+    const hoverLeaveHandler = () => {
+      hoveringRef.current = false;
+      setIsHovering(false);
+    };
+
     const addHoverListeners = () => {
       const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, textarea, select, .tilt-card, .magnetic-btn');
       interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => setIsHovering(true));
-        el.addEventListener('mouseleave', () => setIsHovering(false));
+        el.addEventListener('mouseenter', hoverEnterHandler);
+        el.addEventListener('mouseleave', hoverLeaveHandler);
       });
     };
 
+    const removeHoverListeners = () => {
+      const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, textarea, select, .tilt-card, .magnetic-btn');
+      interactiveElements.forEach(el => {
+        el.removeEventListener('mouseenter', hoverEnterHandler);
+        el.removeEventListener('mouseleave', hoverLeaveHandler);
+      });
+    };
+
+    let rafId: number;
     const raf = () => {
       posRef.current.x += (targetRef.current.x - posRef.current.x) * 0.15;
       posRef.current.y += (targetRef.current.y - posRef.current.y) * 0.15;
@@ -46,7 +81,7 @@ export default function CustomCursor() {
         dot.style.transform = `translate(${targetRef.current.x - 4}px, ${targetRef.current.y - 4}px)`;
       }
 
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     };
 
     window.addEventListener('mousemove', onMouseMove);
@@ -57,7 +92,7 @@ export default function CustomCursor() {
     const observer = new MutationObserver(addHoverListeners);
     observer.observe(document.body, { childList: true, subtree: true });
 
-    const rafId = requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
@@ -65,8 +100,9 @@ export default function CustomCursor() {
       document.removeEventListener('mouseleave', onMouseLeave);
       cancelAnimationFrame(rafId);
       observer.disconnect();
+      removeHoverListeners();
     };
-  }, [isVisible]);
+  }, []); // Run once on mount — no dependency re-runs
 
   // Don't render on touch devices
   if (typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {

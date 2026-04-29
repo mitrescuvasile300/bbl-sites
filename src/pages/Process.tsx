@@ -1,8 +1,6 @@
 import { useEffect, useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -230,14 +228,12 @@ export default function Process() {
 
   return (
     <div style={{ backgroundColor: '#FAF9F5' }}>
-      <Navbar />
       <main>
         <ProcessHero />
         <ProcessSteps />
         <ProcessTimeline />
         <ProcessFAQ />
       </main>
-      <Footer />
     </div>
   );
 }

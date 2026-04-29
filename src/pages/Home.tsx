@@ -1,4 +1,4 @@
-import { useEffect, useRef, useLayoutEffect, useState } from 'react';
+import { useEffect, useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -7,99 +7,6 @@ gsap.registerPlugin(ScrollTrigger);
 /* ═══════════════════════════════════════════════
    BBL SITES — Single Page Website (Design 1)
    ═══════════════════════════════════════════════ */
-
-/* ───────────────────── Navbar ───────────────────── */
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { label: 'Servicii', href: '#/servicii' },
-    { label: 'Proces', href: '#proces' },
-    { label: 'Portofoliu', href: '#portofoliu' },
-    { label: 'Cine suntem', href: '#despre' },
-    { label: 'Contact', href: '#contact' },
-  ];
-
-  return (
-    <>
-      <header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-        style={{
-          backgroundColor: scrolled ? 'rgba(250,249,245,0.95)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        }}
-      >
-        <nav className="flex justify-between items-center w-full py-6 content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
-          <a href="#" className="flex items-center shrink-0">
-            <img
-              src="/logo-bbl-nav.png"
-              alt="BBL Sites"
-              style={{ height: '44px', width: 'auto', objectFit: 'contain' }}
-            />
-          </a>
-          <div className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-nav transition-colors duration-200 hover:text-accent-orange"
-                style={{ color: 'rgba(0,45,33,0.6)' }}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-          <a
-            href="#contact"
-            className="hidden md:inline-flex btn-primary"
-            style={{ padding: '12px 24px', fontSize: '0.65rem' }}
-          >
-            Proiect Nou
-          </a>
-          <button
-            className="md:hidden flex flex-col gap-1.5 p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Meniu"
-          >
-            <span className="block w-5 h-px bg-bg-green" />
-            <span className="block w-5 h-px bg-bg-green" />
-            <span className="block w-5 h-px bg-bg-green" />
-          </button>
-        </nav>
-        <div className="h-px w-full" style={{ backgroundColor: '#F4F4F0' }} />
-      </header>
-
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 md:hidden"
-          style={{ backgroundColor: 'rgba(250,249,245,0.98)' }}
-        >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-h2 font-headline"
-              style={{ color: '#002D21' }}
-              onClick={() => setMobileOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
-          <a href="#contact" className="btn-primary mt-4" onClick={() => setMobileOpen(false)}>
-            Proiect Nou
-          </a>
-        </div>
-      )}
-    </>
-  );
-}
 
 /* ───────────────────── Hero ───────────────────── */
 function HeroSection() {
@@ -152,7 +59,7 @@ function HeroSection() {
 
           <div ref={ctaRef} className="flex flex-wrap gap-4 pt-4">
             <a href="#contact" className="btn-primary" style={{ padding: '18px 36px' }}>
-              Programează o discuție
+              Solicită o ofertă gratuită
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M7 17L17 7M17 7H7M17 7V17" />
               </svg>
@@ -363,7 +270,7 @@ function ServicesSection() {
             <h2 className="text-h1" style={{ color: '#002D21' }}>Servicii Adaptate IMM-urilor</h2>
           </div>
           <div className="text-micro text-right hidden md:block" style={{ color: '#74777D' }}>
-            SRV_CAT_001<br />SRV_CAT_002<br />SRV_CAT_003
+            Design · Dev · Strategie
           </div>
         </div>
 
@@ -710,55 +617,10 @@ function CTASection() {
   );
 }
 
-/* ─────────────────── Footer ─────────────────── */
-function Footer() {
-  return (
-    <footer style={{ backgroundColor: '#104436', color: '#FAF9F5' }}>
-      <div className="content-max-width flex flex-col md:flex-row justify-between items-end w-full py-16 gap-8" style={{ padding: '0 clamp(24px, 5vw, 80px)' }}>
-        <div className="flex flex-col gap-6 w-full md:w-auto">
-          <div className="font-headline font-bold text-2xl">BBL Sites</div>
-          <p className="text-micro max-w-xs" style={{ color: 'rgba(250,249,245,0.5)', lineHeight: 1.8 }}>
-            Crafting digital architectures for businesses that value precision and performance.
-          </p>
-          <div className="flex gap-6 mt-4">
-            {['LinkedIn', 'Instagram', 'Behance'].map((social) => (
-              <a key={social} href="#" className="text-micro transition-opacity hover:opacity-100" style={{ color: 'rgba(250,249,245,0.5)' }}>
-                {social}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-wrap gap-12 text-right">
-          <div className="flex flex-col gap-4">
-            <span className="text-micro font-bold" style={{ color: '#D35400' }}>Link-uri</span>
-            {['Servicii', 'Proces', 'Privacy', 'Contact'].map((link) => (
-              <a key={link} href={`#${link.toLowerCase()}`} className="text-micro transition-opacity hover:text-white" style={{ color: 'rgba(250,249,245,0.5)' }}>
-                {link}
-              </a>
-            ))}
-          </div>
-          <div className="flex flex-col gap-4">
-            <span className="text-micro font-bold" style={{ color: '#D35400' }}>Localizare</span>
-            <span className="text-micro" style={{ color: 'rgba(250,249,245,0.5)' }}>București, România</span>
-            <span className="text-micro" style={{ color: 'rgba(250,249,245,0.5)' }}>office@bblsites.ro</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="content-max-width flex justify-between items-center pb-12" style={{ padding: '0 clamp(24px, 5vw, 80px)', opacity: 0.3 }}>
-        <div className="text-micro">© 2025 BBL Sites. Craft Digital și Arhitectură Web.</div>
-        <div className="text-micro">SYSTEM_READY: 200 OK</div>
-      </div>
-    </footer>
-  );
-}
-
 /* ─────────────────── Home Page ─────────────────── */
 export default function Home() {
   return (
     <div className="relative min-h-[100dvh]" style={{ backgroundColor: '#FAF9F5' }}>
-      <Navbar />
       <main>
         <HeroSection />
         <TrustBar />
@@ -768,7 +630,6 @@ export default function Home() {
         <TestimonialsSection />
         <CTASection />
       </main>
-      <Footer />
     </div>
   );
 }

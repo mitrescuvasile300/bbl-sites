@@ -44,7 +44,7 @@ export default function Navbar() {
         <nav className="flex justify-between items-center w-full py-6 content-max-width" style={{ padding: '0 clamp(24px, 5vw, 80px)' }} aria-label="Navigare principală">
           <Link to="/" className="flex items-center shrink-0" aria-label="BBL Sites - pagina principală">
             <img
-              src="/logo-bbl-nav.png"
+              src="/bbl-logo.svg"
               alt="BBL Sites"
               loading="eager"
               style={{ height: '44px', width: 'auto', objectFit: 'contain' }}

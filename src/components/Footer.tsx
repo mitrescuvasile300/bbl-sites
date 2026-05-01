@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col gap-6 w-full md:w-auto">
           <Link to="/" className="shrink-0">
             <img
-              src="/logo-bbl-nav.png"
+              src="/bbl-logo.svg"
               alt="BBL Sites Logo"
               loading="lazy"
               style={{ height: '28px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }}

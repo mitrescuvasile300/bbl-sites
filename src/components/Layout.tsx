@@ -47,8 +47,8 @@ export default function Layout({ children }: LayoutProps) {
 
   useEffect(() => {
     const lenis = new Lenis({
-      lerp: 0.12,
-      duration: 0.8,
+      lerp: 0.08,
+      duration: 0.5,
       smoothWheel: true,
     })
 

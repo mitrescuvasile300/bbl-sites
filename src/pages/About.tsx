@@ -114,7 +114,7 @@ function AboutTeam() {
 
   const team = [
     {
-      name: 'Programator 1',
+      name: 'Vasile Mitrescu',
       years: '12 ani de experiență',
       focus: 'Java • Spring Boot • Angular',
       bio: '12 ani de experiență în dezvoltarea de aplicații enterprise. Specializare pe arhitectură backend cu Java și Spring Boot, plus frontend modern cu Angular. A construit sisteme care procesează milioane de requesturi zilnic.',
@@ -122,7 +122,7 @@ function AboutTeam() {
       avatar: '/team-1.jpg',
     },
     {
-      name: 'Programator 2',
+      name: 'Bogdan Lungu',
       years: '16 ani de experiență',
       focus: 'Full Stack • Enterprise • Cloud',
       bio: '16 ani de experiență în programare. Background solid în dezvoltarea full-stack pentru corporații mari, cu expertiză în arhitectură cloud, microservicii și integrări complexe. Acum aplică aceeași rigurozitate pentru fiecare client.',

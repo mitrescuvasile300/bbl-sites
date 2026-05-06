@@ -116,7 +116,7 @@ function TrustBar() {
     return () => ctx.revert();
   }, []);
 
-  const clients = ['LOGISTIC CORE', 'BUILD RO', 'TECH FUSION', 'MED CONNECT', 'ECO SYSTEM'];
+  const clients = ['Logistică Modernă', 'ConstructPro', 'Tech Innovate', 'MediCare Clinic', 'Eco Gardens'];
 
   return (
     <section ref={sectionRef} style={{ backgroundColor: '#F4F4F0', padding: '60px 0' }}>
@@ -540,13 +540,13 @@ function TestimonialsSection() {
               <div className="flex items-center gap-6">
                 <img
                   src="/testimonial-avatar.jpg"
-                  alt="Mihai Ionescu"
+                  alt="Andrei Popescu"
                   className="w-16 h-16 rounded-full object-cover"
                   style={{ filter: 'grayscale(0.3)' }}
                 />
                 <div>
-                  <h5 className="font-bold text-lg" style={{ color: '#FAF9F5' }}>Mihai Ionescu</h5>
-                  <p className="text-micro" style={{ color: '#7FB19E' }}>Director General, BuildRO Systems</p>
+                  <h5 className="font-bold text-lg" style={{ color: '#FAF9F5' }}>Andrei Popescu</h5>
+                  <p className="text-micro" style={{ color: '#7FB19E' }}>Fondator, ConstructPro</p>
                 </div>
               </div>
             </div>

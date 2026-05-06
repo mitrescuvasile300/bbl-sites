@@ -2,6 +2,7 @@ import { useEffect, useRef, useLayoutEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Link } from 'react-router-dom'
+import { LinkedInIcon, InstagramIcon, BehanceIcon } from '../components/SocialIcons'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -154,10 +155,10 @@ function ContactForm() {
           </div>
           <div>
             <p className="text-micro mb-3" style={{ color: '#D35400' }}>SOCIAL</p>
-            <div className="flex gap-4">
-              <a href="https://linkedin.com/company/bblsites" target="_blank" rel="noopener noreferrer" className="text-micro transition-colors hover:text-accent-orange" style={{ color: '#74777D' }}>LinkedIn</a>
-              <a href="https://instagram.com/bblsites" target="_blank" rel="noopener noreferrer" className="text-micro transition-colors hover:text-accent-orange" style={{ color: '#74777D' }}>Instagram</a>
-              <a href="https://behance.net/bblsites" target="_blank" rel="noopener noreferrer" className="text-micro transition-colors hover:text-accent-orange" style={{ color: '#74777D' }}>Behance</a>
+            <div className="flex gap-3 items-center">
+              <a href="https://linkedin.com/company/bblsites" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full transition-all hover:scale-110" style={{ backgroundColor: '#002D21', color: '#FAF9F5' }} aria-label="LinkedIn BBL Sites"><LinkedInIcon size={18} /></a>
+              <a href="https://instagram.com/bblsites" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full transition-all hover:scale-110" style={{ backgroundColor: '#002D21', color: '#FAF9F5' }} aria-label="Instagram BBL Sites"><InstagramIcon size={18} /></a>
+              <a href="https://behance.net/bblsites" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full transition-all hover:scale-110" style={{ backgroundColor: '#002D21', color: '#FAF9F5' }} aria-label="Behance BBL Sites"><BehanceIcon size={18} /></a>
             </div>
           </div>
           <div className="p-6" style={{ backgroundColor: '#002D21', color: '#FAF9F5' }}>

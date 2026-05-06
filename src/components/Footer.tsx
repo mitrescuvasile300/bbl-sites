@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { LinkedInIcon, InstagramIcon, BehanceIcon } from './SocialIcons'
 
 export default function Footer() {
   return (
@@ -16,15 +17,15 @@ export default function Footer() {
           <p className="text-micro max-w-xs" style={{ color: 'rgba(250,249,245,0.5)', lineHeight: 1.8 }}>
             Construim website-uri pentru IMM-uri. Design strategic, dezvoltare performantă, rezultate măsurabile.
           </p>
-          <div className="flex gap-6 mt-4">
-            <a href="https://linkedin.com/company/bblsites" target="_blank" rel="noopener noreferrer" className="text-micro transition-opacity hover:opacity-100" style={{ color: 'rgba(250,249,245,0.5)' }} aria-label="LinkedIn BBL Sites">
-              LinkedIn
+          <div className="flex gap-4 mt-4 items-center">
+            <a href="https://linkedin.com/company/bblsites" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full transition-all hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF854A]" style={{ backgroundColor: 'rgba(250,249,245,0.1)', color: '#FAF9F5' }} aria-label="LinkedIn BBL Sites">
+              <LinkedInIcon size={18} />
             </a>
-            <a href="https://instagram.com/bblsites" target="_blank" rel="noopener noreferrer" className="text-micro transition-opacity hover:opacity-100" style={{ color: 'rgba(250,249,245,0.5)' }} aria-label="Instagram BBL Sites">
-              Instagram
+            <a href="https://instagram.com/bblsites" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full transition-all hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF854A]" style={{ backgroundColor: 'rgba(250,249,245,0.1)', color: '#FAF9F5' }} aria-label="Instagram BBL Sites">
+              <InstagramIcon size={18} />
             </a>
-            <a href="https://behance.net/bblsites" target="_blank" rel="noopener noreferrer" className="text-micro transition-opacity hover:opacity-100" style={{ color: 'rgba(250,249,245,0.5)' }} aria-label="Behance BBL Sites">
-              Behance
+            <a href="https://behance.net/bblsites" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full transition-all hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF854A]" style={{ backgroundColor: 'rgba(250,249,245,0.1)', color: '#FAF9F5' }} aria-label="Behance BBL Sites">
+              <BehanceIcon size={18} />
             </a>
           </div>
         </div>

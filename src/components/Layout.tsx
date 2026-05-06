@@ -1,6 +1,5 @@
 import { useEffect, type ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
-import Lenis from '@studio-freight/lenis'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import CustomCursor from './CustomCursor'
@@ -44,24 +43,6 @@ const pageMeta: Record<string, { title: string; description: string }> = {
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation()
-
-  useEffect(() => {
-    const lenis = new Lenis({
-      lerp: 0.08,
-      duration: 0.5,
-      smoothWheel: true,
-    })
-
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-    requestAnimationFrame(raf)
-
-    return () => {
-      lenis.destroy()
-    }
-  }, [])
 
   useEffect(() => {
     window.scrollTo(0, 0)
